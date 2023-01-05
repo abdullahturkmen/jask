@@ -1,0 +1,56 @@
+.board-sidebar {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 24px;
+
+    .sidebar-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 8px;
+        margin-bottom: 4px;
+        border-radius: 8px;
+        cursor: pointer;
+        color: #667085;
+        font-weight: bold;
+
+        & > * {
+            &:first-child {
+                margin-right: 8px;
+            }
+        }
+
+        &:first-child {
+            margin-bottom: 32px;
+        }
+
+        &.active,
+        &:hover {
+            background-color: #f2f4f7;
+            color: #1d2939;
+
+            .item-count {
+                background-color: #1d2939;
+                color: #fff;
+            }
+        }
+
+        &.align-end {
+            margin-top: auto;
+            margin-bottom: 0;
+        }
+
+        .item-count {
+            width: 20px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            border-radius: 6px;
+            background-color: #f2f4f7;
+            color: #344054;
+            font-size: 12px;
+        }
+    }
+}

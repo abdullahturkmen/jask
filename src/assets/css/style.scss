@@ -1,0 +1,156 @@
+@import "./reset";
+
+body {
+    background-color: #f2f4f7;
+    height: 100vh;
+    font-family: sans-serif;
+    overflow: hidden;
+}
+
+.board {
+    &.mainboard {
+        display: flex;
+        width: 100%;
+        min-height: 100vh;
+    }
+    &-sidebar {
+        flex: 0 0 20%;
+    }
+    &-panel {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        position: relative;
+        height: calc(100vh - 160px);
+        margin: 80px;
+        overflow: hidden;
+
+        .btn-new-section {
+            position: absolute;
+            top: -40px;
+            background-color: #344054;
+            display: flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .board-list {
+            display: flex;
+            height: 100%;
+            gap: 36px;
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            &:hover {
+                &::-webkit-scrollbar {
+                    &-track {
+                        background: #ebebeb;
+                    }
+                    &-thumb {
+                        background: #1d2939;
+                    }
+                }
+            }
+
+            &::-webkit-scrollbar {
+                height: 4px;
+                border-radius: 100px;
+                margin-left: 26px;
+
+                &-track {
+                    background: transparent;
+                    border-radius: 100px;
+                }
+
+                &-thumb {
+                    background: transparent;
+                    border-radius: 100px;
+
+                    &:hover {
+                        background: #0d6efd;
+                    }
+                }
+            }
+
+            .board-section {
+                width: 350px;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                background: #e9ebef;
+                padding: 10px;
+                flex-shrink: 0;
+                overflow-y: auto;
+
+                &:hover {
+                    &::-webkit-scrollbar {
+                        &-track {
+                            background: #ebebeb;
+                        }
+                        &-thumb {
+                            background: #1d2939;
+                        }
+                    }
+                }
+
+                &::-webkit-scrollbar {
+                    width: 4px;
+                    border-radius: 100px;
+                    margin-left: 26px;
+
+                    &-track {
+                        background: transparent;
+                        border-radius: 100px;
+                    }
+
+                    &-thumb {
+                        background: transparent;
+                        border-radius: 100px;
+
+                        &:hover {
+                            background: #0d6efd;
+                        }
+                    }
+                }
+
+                &.sortable-chosen {
+                    background-color: #dce3ef !important;
+                }
+
+                .section-title {
+                    font-size: 15px;
+                    font-weight: bold;
+                    color: #667085;
+                    text-transform: uppercase;
+                    margin-bottom: 32px;
+                    display: block;
+                }
+
+                .task-list {
+                    height: 100%;
+
+                    .task-item {
+                        background-color: #fcfcfd;
+                        border-radius: 8px;
+                        padding: 20px;
+                        margin-bottom: 24px;
+                        box-shadow: 0px 0.5px 2px #1018284d;
+
+                        &.sortable-chosen {
+                            box-shadow: 0 0 10px #00000045;
+                        }
+
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
