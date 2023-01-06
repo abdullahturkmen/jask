@@ -21,9 +21,14 @@ body {
         flex-direction: column;
         flex: 1 1 auto;
         position: relative;
+        width: calc(80% - 160px);
         height: calc(100vh - 160px);
         margin: 80px;
-        overflow: hidden;
+        
+
+        &-content{
+            overflow: hidden;
+        }
 
         .btn-new-section {
             position: absolute;
@@ -43,8 +48,7 @@ body {
             display: flex;
             height: 100%;
             gap: 36px;
-            overflow-x: auto;
-            overflow-y: hidden;
+            overflow: auto;
 
             &:hover {
                 &::-webkit-scrollbar {
@@ -58,6 +62,7 @@ body {
             }
 
             &::-webkit-scrollbar {
+                width: 4px;
                 height: 4px;
                 border-radius: 100px;
                 margin-left: 26px;
@@ -85,38 +90,7 @@ body {
                 background: #e9ebef;
                 padding: 10px;
                 flex-shrink: 0;
-                overflow-y: auto;
-
-                &:hover {
-                    &::-webkit-scrollbar {
-                        &-track {
-                            background: #ebebeb;
-                        }
-                        &-thumb {
-                            background: #1d2939;
-                        }
-                    }
-                }
-
-                &::-webkit-scrollbar {
-                    width: 4px;
-                    border-radius: 100px;
-                    margin-left: 26px;
-
-                    &-track {
-                        background: transparent;
-                        border-radius: 100px;
-                    }
-
-                    &-thumb {
-                        background: transparent;
-                        border-radius: 100px;
-
-                        &:hover {
-                            background: #0d6efd;
-                        }
-                    }
-                }
+                position: relative;
 
                 &.sortable-chosen {
                     background-color: #dce3ef !important;
@@ -146,7 +120,7 @@ body {
                         }
 
                         &:last-child {
-                            margin-bottom: 0;
+                            margin-bottom: 6px;
                         }
                     }
                 }

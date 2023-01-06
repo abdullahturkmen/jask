@@ -4,7 +4,8 @@
     <div class="board-panel">
       <button class="btn-new-section"><PlusSmIcon /> Add New Section</button>
 
-      <draggable class="board-list" group="sections">
+      <div class="board-panel-content">
+        <draggable class="board-list" group="sections">
         <div class="board-section">
           <span class="section-title">To do</span>
           <draggable class="task-list" :list="tasks.ideas" group="tasks">
@@ -62,6 +63,7 @@
           </draggable>
         </div>
       </draggable>
+      </div>
     </div>
   </div>
 </template>
