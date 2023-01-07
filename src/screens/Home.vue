@@ -6,59 +6,96 @@
 
       <div class="board-panel-content">
         <draggable class="board-list" group="sections">
-        <div class="board-section">
-          <div class="section-head">
-          <span class="section-title">To do</span>
-            <button class="btn-new-task"><PlusSmIcon /> New Task</button>
-          </div>
-          <draggable class="task-list" :list="tasks.ideas" group="tasks">
-            <div v-for="(idea, i) in tasks.ideas" :key="i" class="task-item">
-              <p>{{ idea }}</p>
+        
+          <div class="board-section"  v-for="(dataList, name, index) in tasks" :key="index">
+            <div class="section-head">
+              <span class="section-title">{{ name }}</span>
+              <button class="btn-new-task"><PlusSmIcon /> New Task</button>
             </div>
-          </draggable>
-        </div>
-        <div class="board-section">
-          <div class="section-head">
-          <span class="section-title">Doing</span>
-            <button class="btn-new-task"><PlusSmIcon /> New Task</button>
+            <draggable class="task-list" :list="dataList" group="name">
+              <div
+                v-for="(progress, i) in dataList"
+                :key="i"
+                class="task-item"
+              >
+              <div class="task-item-header">
+                  <div class="task-title">{{ todo }}</div>
+                  <div class="task-details">
+                    <span>12th Jan</span>
+                    <span>Created by <a href="#">Prahlad</a></span>
+                  </div>
+                </div>
+                <div class="task-item-content">
+                  <div class="task-description">
+                    Please use trello and designs in Dribbble as reference. And
+                    carry on...
+                  </div>
+                  <img
+                    class="task-img"
+                    src="https://picsum.photos/id/85/300/120"
+                  />
+                  <div class="task-sources">
+                    <span><LinkIcon /><span>docs.google.com.deneme</span></span>
+                    <span
+                      ><PaperClipIcon /><span
+                        >docs.google.com.deneme</span
+                      ></span
+                    >
+                  </div>
+                  <div class="task-tags">
+                    <span>Design</span>
+                    <span>Development</span>
+                  </div>
+                </div>
+                <div class="task-item-footer">
+                  <div class="task-comments"><ChatIcon />3</div>
+                  <div class="task-contributer">
+                    <a class="task-contributer-item" href=""
+                      ><img
+                        class="task-contributer-img"
+                        src="https://picsum.photos/id/82/24/24"
+                    /></a>
+                    <a class="task-contributer-item" href=""
+                      ><img
+                        class="task-contributer-img"
+                        src="https://picsum.photos/id/89/24/24"
+                    /></a>
+                    <a class="task-contributer-item" href=""
+                      ><img
+                        class="task-contributer-img"
+                        src="https://picsum.photos/id/87/24/24"
+                    /></a>
+                  </div>
+                </div>
+              </div>
+            </draggable>
           </div>
-          <draggable class="task-list" :list="tasks.todos" group="tasks">
-            <div v-for="(todo, i) in tasks.todos" :key="i" class="task-item">
-              <p>{{ todo }}</p>
-            </div>
-          </draggable>
-        </div>
-        <div class="board-section">
-          <div class="section-head">
-          <span class="section-title">in Progress</span>
-            <button class="btn-new-task"><PlusSmIcon /> New Task</button>
-          </div>
-          <draggable class="task-list" :list="tasks.inProgress" group="tasks">
-            <div
-              v-for="(progress, i) in tasks.inProgress"
-              :key="i"
-              class="task-item"
-            >
-              <p>{{ progress }}</p>
-            </div>
-          </draggable>
-        </div>
-      </draggable>
+        </draggable>
       </div>
     </div>
+
+  
   </div>
 </template>
 
 <script>
 import Sidebar from "@/components/Sidebar.vue";
 import draggable from "vuedraggable";
-import { PlusSmIcon } from "@vue-hero-icons/outline";
+import {
+  PlusSmIcon,
+  LinkIcon,
+  PaperClipIcon,
+  ChatIcon,
+} from "@vue-hero-icons/outline";
 
 export default {
   name: "Home",
   components: {
     Sidebar,
     PlusSmIcon,
+    LinkIcon,
+    PaperClipIcon,
+    ChatIcon,
     draggable,
   },
   data() {
@@ -67,7 +104,7 @@ export default {
       tasks: {
         ideas: ["TASK-1124"],
         todos: [
-          "TASK-1120",
+          "Make a Kanban App",
           "TASK-1036",
           "TASK-1123",
           "TASK-1032",
