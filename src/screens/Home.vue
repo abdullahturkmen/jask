@@ -2,24 +2,25 @@
   <div class="mainboard board">
     <Sidebar />
     <div class="board-panel">
-      <button class="btn-new-section"><PlusSmIcon /> New Section</button>
+      <button class="btn-new-section" @click="newSectionModal = true">
+        <PlusSmIcon /> New Section
+      </button>
 
       <div class="board-panel-content">
         <draggable class="board-list" group="sections">
-        
-          <div class="board-section"  v-for="(dataList, name, index) in tasks" :key="index">
+          <div
+            class="board-section"
+            v-for="(dataList, name, index) in tasks"
+            :key="index"
+          >
             <div class="section-head">
               <span class="section-title">{{ name }}</span>
               <button class="btn-new-task"><PlusSmIcon /> New Task</button>
             </div>
             <draggable class="task-list" :list="dataList" group="name">
-              <div
-                v-for="(progress, i) in dataList"
-                :key="i"
-                class="task-item"
-              >
-              <div class="task-item-header">
-                  <div class="task-title">{{ todo }}</div>
+              <div v-for="(title, i) in dataList" :key="i" class="task-item">
+                <div class="task-item-header">
+                  <div class="task-title">{{ title }}</div>
                   <div class="task-details">
                     <span>12th Jan</span>
                     <span>Created by <a href="#">Prahlad</a></span>
@@ -73,8 +74,24 @@
         </draggable>
       </div>
     </div>
-
-  
+    <div class="modal" v-show="newSectionModal">
+      <div class="modal-container modal-small">
+        <div class="modal-title">Add New Section</div>
+        <div class="modal-content">
+          <input
+            type="text"
+            v-model="newSectionTitle"
+            placeholder="Section Title"
+          />
+        </div>
+        <div class="modal-actions">
+          <button class="submit-btn" @click="addNewSection">Kaydet</button>
+        </div>
+        <button class="modal-close-btn" @click="newSectionModal = false">
+          <XIcon />
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -86,6 +103,7 @@ import {
   LinkIcon,
   PaperClipIcon,
   ChatIcon,
+  XIcon,
 } from "@vue-hero-icons/outline";
 
 export default {
@@ -96,11 +114,11 @@ export default {
     LinkIcon,
     PaperClipIcon,
     ChatIcon,
+    XIcon,
     draggable,
   },
   data() {
     return {
-      sections: ["sectionOne", "sectionTwo", "sectionThree"],
       tasks: {
         ideas: ["TASK-1124"],
         todos: [
@@ -119,6 +137,8 @@ export default {
         ],
         inProgress: ["TASK-1129", "TASK-1038"],
       },
+      newSectionTitle: "",
+      newSectionModal: false,
     };
   },
   methods: {
@@ -128,6 +148,16 @@ export default {
       return (
         (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
       );
+    },
+    addNewSection() {
+      if (this.newSectionTitle != null && this.newSectionTitle.length > 0) {
+        this.tasks = {
+          ...this.tasks,
+          ...{ [this.newSectionTitle.trim()]: [] },
+        };
+        this.newSectionModal = false;
+        this.newSectionTitle = "";
+      }
     },
   },
   computed: {
