@@ -15,7 +15,7 @@
           >
             <div class="section-head">
               <span class="section-title">{{ name }}</span>
-              <button class="btn-new-task"><PlusSmIcon /> New Task</button>
+              <button class="btn-new-task" @click="openTaskModal(name)"><PlusSmIcon /> New Task</button>
             </div>
             <draggable class="task-list" :list="dataList" group="name">
               <div v-for="(title, i) in dataList" :key="i" class="task-item">
@@ -92,6 +92,24 @@
         </button>
       </div>
     </div>
+    <div class="modal" v-show="newTaskModal">
+      <div class="modal-container modal-small">
+        <div class="modal-title">Add New Task</div>
+        <div class="modal-content">
+          <input
+            type="text"
+            v-model="newTaskTitle"
+            placeholder="Task Title"
+          />
+        </div>
+        <div class="modal-actions">
+          <button class="submit-btn" @click="addNewTask">Kaydet</button>
+        </div>
+        <button class="modal-close-btn" @click="newTaskModal = false">
+          <XIcon />
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -139,6 +157,9 @@ export default {
       },
       newSectionTitle: "",
       newSectionModal: false,
+      newTaskTitle: "",
+      newTaskModal: false,
+      selectedSection: "",
     };
   },
   methods: {
@@ -157,6 +178,18 @@ export default {
         };
         this.newSectionModal = false;
         this.newSectionTitle = "";
+      }
+    },
+    openTaskModal(e) {
+      console.log("tasks", this.tasks)
+      this.selectedSection = e;
+      this.newTaskModal = true
+    },
+    addNewTask() {
+      if (this.newTaskTitle != null && this.newTaskTitle.length > 0) {
+        this.tasks[this.selectedSection] = [...this.tasks[this.selectedSection], this.newTaskTitle]
+        this.newTaskModal = false;
+        this.newTaskTitle = "";
       }
     },
   },
