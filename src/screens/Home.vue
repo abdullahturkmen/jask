@@ -2,12 +2,15 @@
   <div class="mainboard board">
     <Sidebar />
     <div class="board-panel">
-      <button class="btn-new-section"><PlusSmIcon /> Add New Section</button>
+      <button class="btn-new-section"><PlusSmIcon /> New Section</button>
 
       <div class="board-panel-content">
         <draggable class="board-list" group="sections">
         <div class="board-section">
+          <div class="section-head">
           <span class="section-title">To do</span>
+            <button class="btn-new-task"><PlusSmIcon /> New Task</button>
+          </div>
           <draggable class="task-list" :list="tasks.ideas" group="tasks">
             <div v-for="(idea, i) in tasks.ideas" :key="i" class="task-item">
               <p>{{ idea }}</p>
@@ -15,7 +18,10 @@
           </draggable>
         </div>
         <div class="board-section">
+          <div class="section-head">
           <span class="section-title">Doing</span>
+            <button class="btn-new-task"><PlusSmIcon /> New Task</button>
+          </div>
           <draggable class="task-list" :list="tasks.todos" group="tasks">
             <div v-for="(todo, i) in tasks.todos" :key="i" class="task-item">
               <p>{{ todo }}</p>
@@ -23,35 +29,10 @@
           </draggable>
         </div>
         <div class="board-section">
-          <span class="section-title">inProgress</span>
-          <draggable class="task-list" :list="tasks.inProgress" group="tasks">
-            <div
-              v-for="(progress, i) in tasks.inProgress"
-              :key="i"
-              class="task-item"
-            >
-              <p>{{ progress }}</p>
-            </div>
-          </draggable>
-        </div>
-        <div class="board-section">
-          <span class="section-title">To do</span>
-          <draggable class="task-list" :list="tasks.ideas" group="tasks">
-            <div v-for="(idea, i) in tasks.ideas" :key="i" class="task-item">
-              <p>{{ idea }}</p>
-            </div>
-          </draggable>
-        </div>
-        <div class="board-section">
-          <span class="section-title">Doing</span>
-          <draggable class="task-list" :list="tasks.todos" group="tasks">
-            <div v-for="(todo, i) in tasks.todos" :key="i" class="task-item">
-              <p>{{ todo }}</p>
-            </div>
-          </draggable>
-        </div>
-        <div class="board-section">
-          <span class="section-title">inProgress</span>
+          <div class="section-head">
+          <span class="section-title">in Progress</span>
+            <button class="btn-new-task"><PlusSmIcon /> New Task</button>
+          </div>
           <draggable class="task-list" :list="tasks.inProgress" group="tasks">
             <div
               v-for="(progress, i) in tasks.inProgress"
