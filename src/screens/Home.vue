@@ -18,54 +18,44 @@
               <button class="btn-new-task" @click="openTaskModal(name)"><PlusSmIcon /> New Task</button>
             </div>
             <draggable class="task-list" :list="dataList" group="name">
-              <div v-for="(title, i) in dataList" :key="i" class="task-item">
+              <div v-for="(task, i) in dataList" :key="i" class="task-item">
                 <div class="task-item-header">
-                  <div class="task-title">{{ title }}</div>
+                  <div class="task-title" v-if="task.title">{{ task.title }}</div>
                   <div class="task-details">
-                    <span>12th Jan</span>
-                    <span>Created by <a href="#">Prahlad</a></span>
+                    <span>{{ taskCreatedAtFormatter(task.createdAt) }}</span>
+                    <span>Created by <a href="#">{{ task.createdBy }}</a></span>
                   </div>
                 </div>
                 <div class="task-item-content">
-                  <div class="task-description">
-                    Please use trello and designs in Dribbble as reference. And
-                    carry on...
+                  <div class="task-description" v-if="task.description">
+                    {{ task.description }}
                   </div>
                   <img
                     class="task-img"
-                    src="https://picsum.photos/id/85/300/120"
+                    :src="task.coverImg" v-if="task.coverImg"
                   />
                   <div class="task-sources">
-                    <span><LinkIcon /><span>docs.google.com.deneme</span></span>
+                    <span v-if="task.linkUrl"><a :href="task.linkUrl"><LinkIcon /><span>{{task.linkUrl}}</span></a></span>
                     <span
-                      ><PaperClipIcon /><span
-                        >docs.google.com.deneme</span
-                      ></span
+                    v-if="task.clipUrl"><a :href="task.clipUrl"><PaperClipIcon /><span
+                        >{{task.clipUrl}}</span
+                      ></a></span
                     >
                   </div>
-                  <div class="task-tags">
-                    <span>Design</span>
-                    <span>Development</span>
+                  <div class="task-tags" v-if="task.tags.length > 0">
+                    <span v-for="(tag, index) in task.tags" :key="index">{{tag}}</span>
                   </div>
                 </div>
                 <div class="task-item-footer">
-                  <div class="task-comments"><ChatIcon />3</div>
-                  <div class="task-contributer">
+                  <div class="task-comments" v-if="task.comments.length > 0"><ChatIcon />{{task.comments.length}}</div>
+                  <div class="task-contributer" v-if="task.contributers.length > 0">
+
                     <a class="task-contributer-item" href=""
-                      ><img
+                       v-for="(contributer, index) in task.contributers" :key="index"><img
                         class="task-contributer-img"
-                        src="https://picsum.photos/id/82/24/24"
+                        :src="contributer.avatar" :alt="contributer.name"
                     /></a>
-                    <a class="task-contributer-item" href=""
-                      ><img
-                        class="task-contributer-img"
-                        src="https://picsum.photos/id/89/24/24"
-                    /></a>
-                    <a class="task-contributer-item" href=""
-                      ><img
-                        class="task-contributer-img"
-                        src="https://picsum.photos/id/87/24/24"
-                    /></a>
+                  
                   </div>
                 </div>
               </div>
@@ -116,6 +106,7 @@
 <script>
 import Sidebar from "@/components/Sidebar.vue";
 import draggable from "vuedraggable";
+import fakeData from "./../data/fakeData.js"
 import {
   PlusSmIcon,
   LinkIcon,
@@ -137,31 +128,16 @@ export default {
   },
   data() {
     return {
-      tasks: {
-        ideas: ["TASK-1124"],
-        todos: [
-          "Make a Kanban App",
-          "TASK-1036",
-          "TASK-1123",
-          "TASK-1032",
-          "TASK-1001",
-          "TASK-1002",
-          "TASK-1125",
-          "TASK-1030",
-          "TASK-1620",
-          "TASK-950",
-          "TASK-997",
-          "TASK-1011",
-        ],
-        inProgress: ["TASK-1129", "TASK-1038"],
-      },
+      tasks: fakeData,
       newSectionTitle: "",
       newSectionModal: false,
       newTaskTitle: "",
       newTaskModal: false,
       selectedSection: "",
+      months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
     };
   },
+ 
   methods: {
     onMove({ relatedContext, draggedContext }) {
       const relatedElement = relatedContext.element;
@@ -182,6 +158,7 @@ export default {
     },
     openTaskModal(e) {
       console.log("tasks", this.tasks)
+      console.log("tasks length", Object.entries(this.tasks).map((e, i, a) => console.log("e:", e[1].length)))
       this.selectedSection = e;
       this.newTaskModal = true
     },
@@ -192,6 +169,12 @@ export default {
         this.newTaskTitle = "";
       }
     },
+    taskCreatedAtFormatter(e){
+      if(new Date(e).getFullYear() == new Date().getFullYear()){
+        return `${new Date(e).getDate()} ${this.months[new Date(e).getMonth()]}`
+      }
+      return `${new Date(e).getDate()} ${this.months[new Date(e).getMonth()]} ${new Date(e).getFullYear().toString().substr(-2)}`
+    }
   },
   computed: {
     dragOptions() {

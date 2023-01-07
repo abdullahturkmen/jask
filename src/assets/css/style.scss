@@ -236,6 +236,8 @@ body {
                         font-size: 15px;
                         color: #98a2b3;
                         line-height: 1.4;
+                        max-height: 40px;
+                        overflow: hidden;
                     }
 
                     &-img {
@@ -253,9 +255,17 @@ body {
                             align-items: center;
                             color: #98a2b3;
                             width: calc(50% - 10px);
+                            
 
-                            &:last-child {
-                                margin-left: 10px;
+                            &:first-child {
+                                margin-right: 10px;
+                            }
+
+                            a{
+                                display: flex;
+                                align-items: center;
+                                color: #98a2b3;
+                                width: 100%;
                             }
 
                             span {
@@ -298,6 +308,7 @@ body {
                     &-contributer {
                         display: flex;
                         gap: 4px;
+                        margin-left: auto;
 
                         &-item {
                             border-radius: 100%;
