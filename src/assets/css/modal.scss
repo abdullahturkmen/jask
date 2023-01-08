@@ -43,15 +43,15 @@
     }
 
     &-small {
-        width: clamp(280px, 100%, 400px);
+        width: clamp(260px, 100%, 400px);
         padding: 16px;
     }
     &-medium {
-        width: clamp(280px, 100%, 600px);
+        width: clamp(260px, 100%, 600px);
         padding: 24px;
     }
     &-big {
-        width: clamp(280px, 100%, 800px);
+        width: clamp(260px, 100%, 800px);
         padding: 32px;
     }
 

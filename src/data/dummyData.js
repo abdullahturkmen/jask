@@ -1,6 +1,7 @@
 export const dummyTaskData = {
     ideas: [
         {
+            id: 1,
             title: "TASK-1124",
             createdAt: "Sat Jan 20 2022 20:24:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
@@ -16,6 +17,7 @@ export const dummyTaskData = {
             ],
             contributers: [2]
         }, {
+            id: 2,
             title: "TASK-1542",
             createdAt: "Sat Jan 07 2023 12:20:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
@@ -30,6 +32,7 @@ export const dummyTaskData = {
     ],
     doing: [
         {
+            id: 3,
             title: "TASK-1035",
             createdAt: "Sat Jan 09 2023 12:20:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
@@ -50,6 +53,7 @@ export const dummyTaskData = {
     ],
     todo: [
         {
+            id: 4,
             title: "TASK-1256",
             createdAt: "Sat Jan 22 2022 20:24:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
@@ -62,6 +66,7 @@ export const dummyTaskData = {
             contributers: [1]
         },
         {
+            id: 5,
             title: "TASK-1421",
             createdAt: "Sat Dec 04 2022 12:20:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
@@ -74,6 +79,7 @@ export const dummyTaskData = {
             contributers: []
         },
         {
+            id: 6,
             title: "TASK-1229",
             createdAt: "Sat Dec 16 2022 12:20:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
@@ -86,6 +92,7 @@ export const dummyTaskData = {
             contributers: [2]
         },
         {
+            id: 7,
             title: "TASK-1041",
             createdAt: "Sat Nov 13 2021 12:20:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
@@ -97,6 +104,7 @@ export const dummyTaskData = {
             comments: [],
             contributers: [2]
         }, {
+            id: 8,
             title: "TASK-1032",
             createdAt: "Sat Oct 27 2022 12:20:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",

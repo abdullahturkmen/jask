@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Karla:wght@200;300;400;500;600;700;800&display=swap");
+@import "./responsive";
 @import "./reset";
 @import "./modal";
 
@@ -28,9 +29,19 @@ body {
         margin: 40px 80px 80px;
         overflow: hidden;
 
+        @include MaxWidthResponsive(991px) {
+            width: 100%;
+            height: calc(100vh - 16px);
+            margin: 16px 0 0;
+        }
+
         &-header {
             display: flex;
             gap: 10px;
+
+            @include MaxWidthResponsive(991px) {
+                padding-left: 10px;
+            }
 
             .btn-new-section {
                 background-color: #344054;
@@ -119,6 +130,10 @@ body {
             min-height: 100%;
             gap: 36px;
             /*overflow: auto;*/
+
+            @include MaxWidthResponsive(991px) {
+                gap: 16px;
+            }
 
             .board-section {
                 width: 350px;
