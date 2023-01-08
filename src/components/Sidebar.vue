@@ -5,9 +5,7 @@
     </button>
 
     <div class="board-sidebar-content">
-      <button class="board-sidebar-close" @click="sidebarOpen = !sidebarOpen">
-      <XIcon />
-    </button>
+      
       <div class="sidebar-item"><HashtagIcon /><span>Company</span></div>
       <div class="sidebar-item active">
         <ViewGridIcon /><span>Tasks</span
@@ -22,6 +20,9 @@
       </div>
       <div class="sidebar-item"><UserIcon /><span>Teams</span></div>
       <div class="sidebar-item align-end"><CogIcon /><span>Setting</span></div>
+      <button class="board-sidebar-close" @click="sidebarOpen = !sidebarOpen">
+      <XIcon />
+    </button>
     </div>
   </div>
 </template>
