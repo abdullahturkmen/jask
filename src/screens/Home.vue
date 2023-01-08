@@ -1,6 +1,6 @@
 <template>
   <div class="mainboard board">
-    <Sidebar taskCount="countTask()"/>
+    <Sidebar :taskCount="countTask()" />
     <div class="board-panel">
       <button class="btn-new-section" @click="newSectionModal = true">
         <PlusSmIcon /> New Section
@@ -14,88 +14,24 @@
             :key="index"
           >
             <div class="section-head">
-              <span class="section-title"
-                >{{ name }} {{ tasks[name].length }}</span
-              >
+              <div class="section-title">
+                <span contenteditable="true">{{ name }}</span>
+                {{ tasks[name].length }}
+              </div>
               <button class="btn-new-task" @click="openTaskModal(name)">
                 <PlusSmIcon /> New Task
               </button>
             </div>
             <draggable class="task-list" :list="dataList" group="name">
-              <div v-for="(task, i) in dataList" :key="i" class="task-item">
-                <div class="task-item-header">
-                  <div class="task-title" v-if="task.title">
-                    {{ task.title }}
-                  </div>
-                  <div class="task-details">
-                    <span>{{ taskCreatedAtFormatter(task.createdAt) }}</span>
-                    <span
-                      >Created by <a href="#">{{ task.createdBy }}</a></span
-                    >
-                  </div>
-                </div>
-                <div
-                  class="task-item-content"
-                  v-if="
-                    task.description ||
-                    task.coverImg ||
-                    task.linkUrl ||
-                    task.clipUrl ||
-                    task.tags.length > 0
-                  "
-                >
-                  <div class="task-description" v-if="task.description">
-                    {{ task.description }}
-                  </div>
-                  <img
-                    class="task-img"
-                    :src="task.coverImg"
-                    v-if="task.coverImg"
-                  />
-                  <div class="task-sources" v-if="task.linkUrl || task.clipUrl">
-                    <span v-if="task.linkUrl"
-                      ><a :href="task.linkUrl"
-                        ><LinkIcon /><span>{{ task.linkUrl }}</span></a
-                      ></span
-                    >
-                    <span v-if="task.clipUrl"
-                      ><a :href="task.clipUrl"
-                        ><PaperClipIcon /><span>{{ task.clipUrl }}</span></a
-                      ></span
-                    >
-                  </div>
-                  <div class="task-tags" v-if="task.tags.length > 0">
-                    <span v-for="(tag, index) in task.tags" :key="index">{{
-                      tag
-                    }}</span>
-                  </div>
-                </div>
-                <div
-                  class="task-item-footer"
-                  v-if="
-                    task.comments.length > 0 || task.contributers.length > 0
-                  "
-                >
-                  <div class="task-comments" v-if="task.comments.length > 0">
-                    <ChatIcon />{{ task.comments.length }}
-                  </div>
-                  <div
-                    class="task-contributer"
-                    v-if="task.contributers.length > 0"
-                  >
-                    <a
-                      class="task-contributer-item"
-                      href=""
-                      v-for="(contributer, index) in task.contributers"
-                      :key="index"
-                      ><img
-                        class="task-contributer-img"
-                        :src="contributer.avatar"
-                        :alt="contributer.name"
-                    /></a>
-                  </div>
-                </div>
-              </div>
+              <div
+                v-for="(task, i) in dataList"
+                :key="i"
+                
+                @click="viewTaskDetails"
+              >
+              <Task :taskDetail="task" />
+            </div>
+             
             </draggable>
           </div>
         </draggable>
@@ -167,6 +103,7 @@
 
 <script>
 import Sidebar from "@/components/Sidebar.vue";
+import Task from "@/components/Task.vue";
 import draggable from "vuedraggable";
 import fakeData from "./../data/fakeData.js";
 import {
@@ -181,6 +118,7 @@ export default {
   name: "Home",
   components: {
     Sidebar,
+    Task,
     PlusSmIcon,
     LinkIcon,
     PaperClipIcon,
@@ -203,26 +141,15 @@ export default {
       newTaskContributers: [],
       newTaskModal: false,
       selectedSection: "",
-      months: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sept",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
+      totalTaskCount: 0,
+      
     };
   },
-  created() {
-    console.log("toplam task : ", this.countTask());
-  },
+
   methods: {
+    viewTaskDetails() {
+      console.log("taska bastın");
+    },
     onMove({ relatedContext, draggedContext }) {
       const relatedElement = relatedContext.element;
       const draggedElement = draggedContext.element;
@@ -241,7 +168,7 @@ export default {
       }
     },
     openTaskModal(e) {
-      console.log("tasks", Object.keys(this.tasks).length);
+      console.log("tasks", this.tasks);
 
       //reset variables
       this.selectedSection = e;
@@ -249,11 +176,10 @@ export default {
     },
     countTask() {
       let taskCounter = 0;
-      Object.entries(this.tasks).map((e, i, a) => {
-        /*console.log("e:", e[1].length);*/
+      Object.entries(this.tasks).map((e) => {
         taskCounter += e[1].length;
       });
-      return taskCounter;
+      return (this.totalTaskCount = taskCounter);
     },
     addNewTask() {
       if (this.newTaskTitle != null && this.newTaskTitle.length > 0) {
@@ -297,16 +223,7 @@ export default {
         }
       }
     },
-    taskCreatedAtFormatter(e) {
-      if (new Date(e).getFullYear() == new Date().getFullYear()) {
-        return `${new Date(e).getDate()} ${
-          this.months[new Date(e).getMonth()]
-        }`;
-      }
-      return `${new Date(e).getDate()} ${
-        this.months[new Date(e).getMonth()]
-      } ${new Date(e).getFullYear().toString().substr(-2)}`;
-    },
+   
   },
   computed: {
     dragOptions() {

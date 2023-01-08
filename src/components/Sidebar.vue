@@ -2,7 +2,8 @@
   <div class="board-sidebar">
     <div class="sidebar-item"><span>Company</span></div>
     <div class="sidebar-item active">
-      <ViewGridIcon /><span>Tasks</span><span class="item-count">4</span>
+      <ViewGridIcon /><span>Tasks</span
+      ><span class="item-count">{{ this.taskCount }}</span>
     </div>
     <div class="sidebar-item">
       <BellIcon /><span>Notifications</span><span class="item-count">1</span>
@@ -27,6 +28,9 @@ import {
 
 export default {
   name: "Sidebar",
+  props: {
+    taskCount: Number,
+  },
   components: {
     CogIcon,
     UserIcon,
