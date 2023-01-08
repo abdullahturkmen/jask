@@ -87,7 +87,7 @@
         display: none;
 
         @include MaxWidthResponsive(991px) {
-            position: absolute;
+            position: fixed;
             top: 20%;
             left: 0;
             width: 36px;
