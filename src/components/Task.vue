@@ -62,11 +62,11 @@
           href=""
           v-for="(contributer, index) in taskDetail.contributers"
           :key="index"
-          ><img
+          ><div
             class="task-contributer-img"
-            :src="contributer.avatar"
-            :alt="contributer.name"
-        /></a>
+            v-html="contributerAvatar(contributer)"
+          ></div
+        ></a>
       </div>
     </div>
   </div>
@@ -88,6 +88,7 @@ export default {
   name: "Task",
   props: {
     taskDetail: Object,
+    contributerData: Array,
   },
   data() {
     return {
@@ -117,7 +118,22 @@ export default {
     PaperClipIcon,
     ChatIcon,
   },
+
   methods: {
+    contributerAvatar(e) {
+      var contributerDetail = [];
+      this.contributerData
+        .filter((x) => x.id == e)
+        .map((x) => (contributerDetail = x));
+
+      if (contributerDetail) {
+        return `<img
+            src="${contributerDetail.avatar}"
+            alt="${contributerDetail.name}"
+            title="${contributerDetail.name}"
+          />`;
+      }
+    },
     taskCreatedAtFormatter(e) {
       if (new Date(e).getFullYear() == new Date().getFullYear()) {
         return `${new Date(e).getDate()} ${
@@ -133,5 +149,5 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "./../assets/css/task.scss";
-  </style> 
+@import "./../assets/css/task.scss";
+</style>

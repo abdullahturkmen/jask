@@ -1,6 +1,6 @@
 <template>
   <div class="board-sidebar">
-    <div class="sidebar-item"><span>Company</span></div>
+    <div class="sidebar-item"><HashtagIcon /><span>Company</span></div>
     <div class="sidebar-item active">
       <ViewGridIcon /><span>Tasks</span
       ><span class="item-count">{{ this.taskCount }}</span>
@@ -24,6 +24,7 @@ import {
   ChartSquareBarIcon,
   BellIcon,
   ViewGridIcon,
+  HashtagIcon,
 } from "@vue-hero-icons/outline";
 
 export default {
@@ -37,6 +38,7 @@ export default {
     ChartSquareBarIcon,
     BellIcon,
     ViewGridIcon,
+    HashtagIcon,
   },
 };
 </script>

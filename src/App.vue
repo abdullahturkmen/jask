@@ -1,14 +1,14 @@
 <template>
-    <Home/>
+  <Board />
 </template>
 
 <script>
-import Home from './screens/Home.vue'
+import Board from "./screens/Board.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Home
-  }
-}
+    Board,
+  },
+};
 </script>

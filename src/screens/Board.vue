@@ -2,9 +2,26 @@
   <div class="mainboard board">
     <Sidebar :taskCount="countTask()" />
     <div class="board-panel">
-      <button class="btn-new-section" @click="newSectionModal = true">
-        <PlusSmIcon /> New Section
-      </button>
+      <div class="board-panel-header">
+        <button class="btn-new-section" @click="newSectionModal = true">
+          <PlusSmIcon /> New Section
+        </button>
+
+        <div class="contributer-list">
+          <div
+            class="contributer-list-item"
+            v-for="(contributer, index) in contributers"
+            :key="index"
+          >
+            <img
+              class="contributer-list-img"
+              :src="contributer.avatar"
+              :alt="contributer.name"
+              :title="contributer.name"
+            />
+          </div>
+        </div>
+      </div>
 
       <div class="board-panel-content">
         <draggable class="board-list" group="sections">
@@ -26,12 +43,10 @@
               <div
                 v-for="(task, i) in dataList"
                 :key="i"
-                
                 @click="viewTaskDetails"
               >
-              <Task :taskDetail="task" />
-            </div>
-             
+                <Task :taskDetail="task" :contributerData="contributers" />
+              </div>
             </draggable>
           </div>
         </draggable>
@@ -48,7 +63,13 @@
           />
         </div>
         <div class="modal-actions">
-          <button class="submit-btn" @click="addNewSection">Save</button>
+          <button
+            class="submit-btn"
+            @click="addNewSection"
+            :disabled="newSectionTitle.length == 0"
+          >
+            Save
+          </button>
         </div>
         <button class="modal-close-btn" @click="newSectionModal = false">
           <XIcon />
@@ -56,7 +77,7 @@
       </div>
     </div>
     <div class="modal" v-show="newTaskModal">
-      <div class="modal-container modal-big">
+      <div class="modal-container modal-medium">
         <div class="modal-title">Add New Task</div>
         <div class="modal-content">
           <input type="text" v-model="newTaskTitle" placeholder="Task Title" />
@@ -80,18 +101,38 @@
             v-model="newTaskClipUrl"
             placeholder="Task Clip Url"
           />
+
           <input
             type="text"
-            @keyup="tag"
-            v-model="inputTag"
+            @keyup="addTaskTag"
+            v-model="tagInput"
             placeholder="Tag 1, tag 2, tag 3, ..."
           />
-          <div class="tag" v-for="(tag, index) in newTaskTags" :key="index">
-            {{ tag }} <button v-on:click="deleteTag(index)"><XIcon /></button>
+          <div class="input-tag-list" v-if="newTaskTags.length > 0">
+            <div class="tag" v-for="(tag, index) in newTaskTags" :key="index">
+              {{ tag }}
+              <XIcon @click="deleteTaskTag(index)" />
+            </div>
           </div>
+          <select v-model="newTaskContributers" multiple>
+            <option disabled="disabled" selected="selected">Assignment</option>
+            <option
+              v-for="(contributer, index) in contributers"
+              :key="index"
+              :value="contributer.id"
+            >
+              {{ contributer.name }}
+            </option>
+          </select>
         </div>
         <div class="modal-actions">
-          <button class="submit-btn" @click="addNewTask">Save</button>
+          <button
+            class="submit-btn"
+            @click="addNewTask"
+            :disabled="newTaskTitle.length == 0"
+          >
+            Save
+          </button>
         </div>
         <button class="modal-close-btn" @click="newTaskModal = false">
           <XIcon />
@@ -105,7 +146,7 @@
 import Sidebar from "@/components/Sidebar.vue";
 import Task from "@/components/Task.vue";
 import draggable from "vuedraggable";
-import fakeData from "./../data/fakeData.js";
+import { dummyTaskData, dummyContributerData } from "./../data/dummyData.js";
 import {
   PlusSmIcon,
   LinkIcon,
@@ -115,7 +156,7 @@ import {
 } from "@vue-hero-icons/outline";
 
 export default {
-  name: "Home",
+  name: "Board",
   components: {
     Sidebar,
     Task,
@@ -128,7 +169,8 @@ export default {
   },
   data() {
     return {
-      tasks: fakeData,
+      tasks: dummyTaskData,
+      contributers: dummyContributerData,
       newSectionTitle: "",
       newSectionModal: false,
       newTaskTitle: "",
@@ -137,12 +179,11 @@ export default {
       newTaskLinkUrl: "",
       newTaskClipUrl: "",
       newTaskTags: [],
-      inputTag: "",
+      tagInput: "",
       newTaskContributers: [],
       newTaskModal: false,
       selectedSection: "",
       totalTaskCount: 0,
-      
     };
   },
 
@@ -163,14 +204,13 @@ export default {
           ...this.tasks,
           ...{ [this.newSectionTitle.trim()]: [] },
         };
+
+        //reset variables
         this.newSectionModal = false;
         this.newSectionTitle = "";
       }
     },
     openTaskModal(e) {
-      console.log("tasks", this.tasks);
-
-      //reset variables
       this.selectedSection = e;
       this.newTaskModal = true;
     },
@@ -182,6 +222,7 @@ export default {
       return (this.totalTaskCount = taskCounter);
     },
     addNewTask() {
+      console.log("this.newTaskContributers : ", this.newTaskContributers);
       if (this.newTaskTitle != null && this.newTaskTitle.length > 0) {
         this.tasks[this.selectedSection] = [
           ...this.tasks[this.selectedSection],
@@ -195,11 +236,12 @@ export default {
             clipUrl: this.newTaskClipUrl,
             tags: this.newTaskTags,
             comments: [],
-            contributers: [],
+            contributers: this.newTaskContributers,
           },
         ];
 
-        console.log("yeni task : ", this.tasks);
+        console.log("new task added : ", this.tasks);
+
         //reset variables
         this.newTaskModal = false;
         this.newTaskTitle = "";
@@ -208,22 +250,22 @@ export default {
         this.newTaskLinkUrl = "";
         this.newTaskClipUrl = "";
         this.newTaskTags = [];
+        this.newTaskContributers = [];
       }
     },
-    deleteTag(id) {
+    deleteTaskTag(id) {
       this.newTaskTags.splice(id, 1);
     },
-    tag: function (e) {
+    addTaskTag(e) {
       if (e.keyCode === 13 || e.keyCode == 188) {
         let tag = e.target.value;
         tag = tag.replaceAll(",", "");
         if (tag.length > 1) {
           this.newTaskTags.push(tag);
-          this.inputTag = "";
+          this.tagInput = "";
         }
       }
     },
-   
   },
   computed: {
     dragOptions() {
