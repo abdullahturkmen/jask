@@ -10,7 +10,7 @@
         <div class="contributer-list">
           <div
             class="contributer-list-item"
-            v-for="(contributer, index) in contributers"
+            v-for="(contributer, index) in activeContributers"
             :key="index"
             @click="contributerFilter(contributer.id)"
             :class="{ active: contributer.id == selectedContributerFilter }"
@@ -25,7 +25,7 @@
           <button
             class="contributer-list-filter-delete"
             v-if="selectedContributerFilter > 0"
-            @click="deleteContributerFilter"
+            @click="removeContributerFilter"
           >
             <XIcon />
           </button>
@@ -159,6 +159,12 @@
           <small>MAT-{{ selectedTaskDetail.id }}</small>
         </div>
         <div class="modal-content">
+          <div class="task-item-header">
+            <div class="task-details">
+              <span>20 Jan 22</span
+              ><span>Created by <a href="#">AbdullahTurkmen</a></span>
+            </div>
+          </div>
           <div v-if="selectedTaskDetail.description">
             {{ selectedTaskDetail.description }}
           </div>
@@ -211,6 +217,7 @@ export default {
       tasks: dummyTaskData,
       tasksFilter: dummyTaskData,
       contributers: dummyContributerData,
+      activeContributers: [],
       newSectionTitle: "",
       newSectionModal: false,
       newTaskTitle: "",
@@ -228,14 +235,36 @@ export default {
       selectedContributerFilter: 0,
     };
   },
+  created() {
+    this.activeContributersData();
+  },
 
   methods: {
+    activeContributersData() {
+      this.activeContributers = [];
+      Object.values(this.tasks).map((e) => {
+        e.map((x) => {
+          x.contributers.map((z) => {
+            Object.values(this.contributers)
+              .filter((ex) => ex.id == z)
+              .map((ex) => {
+                if (
+                  this.activeContributers.filter((exc) => exc.id == ex.id) == 0
+                ) {
+                  this.activeContributers = [
+                    ...this.activeContributers,
+                    { ...ex },
+                  ];
+                }
+              });
+          });
+        });
+      });
+    },
     contributerFilter(id) {
       this.selectedContributerFilter = id;
       this.tasksFilter = [];
-      console.log("contrinuter id :", id);
       Object.entries(this.tasks).map((e) => {
-        //console.log("e : ", e)
         e[1].map((x) => {
           if (x.contributers.includes(id)) {
             if (this.tasksFilter[e[0]] === undefined) {
@@ -250,7 +279,7 @@ export default {
         });
       });
     },
-    deleteContributerFilter() {
+    removeContributerFilter() {
       this.selectedContributerFilter = 0;
       this.tasksFilter = this.tasks;
     },
@@ -279,7 +308,10 @@ export default {
         this.newSectionModal = false;
         this.newSectionTitle = "";
       }
-      this.contributerFilter(this.selectedContributerFilter);
+      if (this.selectedContributerFilter > 0) {
+        this.contributerFilter(this.selectedContributerFilter);
+      }
+
     },
     openTaskModal(e) {
       this.selectedSection = e;
@@ -321,7 +353,10 @@ export default {
         this.newTaskTags = [];
         this.newTaskContributers = [];
       }
-      this.contributerFilter(this.selectedContributerFilter);
+      if (this.selectedContributerFilter > 0) {
+        this.contributerFilter(this.selectedContributerFilter);
+      }
+
     },
     deleteTaskTag(id) {
       this.newTaskTags.splice(id, 1);
@@ -357,6 +392,12 @@ export default {
         this.delayedDragging = false;
       });
     },
+
+    tasks: function (newQuestion) {
+      this.tasksFilter = this.tasks
+      // this will be run immediately on component creation.
+    },
+    // force eager callback execution
   },
 };
 </script>
