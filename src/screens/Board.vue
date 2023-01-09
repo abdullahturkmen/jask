@@ -12,6 +12,8 @@
             class="contributer-list-item"
             v-for="(contributer, index) in contributers"
             :key="index"
+            @click="contributerFilter(contributer.id)"
+            :class="{ active: contributer.id == selectedContributerFilter }"
           >
             <img
               class="contributer-list-img"
@@ -20,6 +22,13 @@
               :title="contributer.name"
             />
           </div>
+          <button
+            class="contributer-list-filter-delete"
+            v-if="selectedContributerFilter > 0"
+            @click="deleteContributerFilter"
+          >
+            <XIcon />
+          </button>
         </div>
       </div>
 
@@ -27,25 +36,29 @@
         <draggable class="board-list" group="sections">
           <div
             class="board-section"
-            v-for="(dataList, name, index) in tasks"
+            v-for="(dataList, name, index) in tasksFilter"
             :key="index"
           >
             <div class="section-head">
               <div class="section-title">
-                <span contenteditable="true">{{ name }}</span>
-                {{ tasks[name].length }}
+                <span class="editable-title" contenteditable="true">{{
+                  name
+                }}</span>
+                <span v-if="selectedContributerFilter > 0"
+                  >{{ tasksFilter[name].length }} / </span
+                >{{ tasks[name].length }}
               </div>
               <button class="btn-new-task" @click="openTaskModal(name)">
                 <PlusSmIcon /> New Task
               </button>
             </div>
             <draggable class="task-list" :list="dataList" group="name">
-              <div
-                v-for="(task, i) in dataList"
-                :key="i"
-                @click="viewTaskDetails"
-              >
-                <Task :taskDetail="task" :contributerData="contributers" />
+              <div v-for="(task, i) in dataList" :key="i">
+                <Task
+                  :taskDetail="task"
+                  :contributerData="contributers"
+                  @clickedViewTaskDetails="viewTaskDetails"
+                />
               </div>
             </draggable>
           </div>
@@ -139,6 +152,32 @@
         </button>
       </div>
     </div>
+    <div class="modal" v-show="selectedTaskDetail.length !== 0">
+      <div class="modal-container modal-medium">
+        <div class="modal-title">
+          {{ selectedTaskDetail.title }}
+          <small>MAT-{{ selectedTaskDetail.id }}</small>
+        </div>
+        <div class="modal-content">
+          <div v-if="selectedTaskDetail.description">
+            {{ selectedTaskDetail.description }}
+          </div>
+          <img
+            class="task-img"
+            :src="selectedTaskDetail.coverImg"
+            v-if="selectedTaskDetail.coverImg"
+          />
+        </div>
+        <div class="modal-actions">
+          <button class="submit-btn" @click="selectedTaskDetail = []">
+            Close
+          </button>
+        </div>
+        <button class="modal-close-btn" @click="selectedTaskDetail = []">
+          <XIcon />
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -170,6 +209,7 @@ export default {
   data() {
     return {
       tasks: dummyTaskData,
+      tasksFilter: dummyTaskData,
       contributers: dummyContributerData,
       newSectionTitle: "",
       newSectionModal: false,
@@ -184,12 +224,42 @@ export default {
       newTaskModal: false,
       selectedSection: "",
       totalTaskCount: 0,
+      selectedTaskDetail: [],
+      selectedContributerFilter: 0,
     };
   },
 
   methods: {
-    viewTaskDetails() {
-      console.log("taska bastın");
+    contributerFilter(id) {
+      this.selectedContributerFilter = id;
+      this.tasksFilter = [];
+      console.log("contrinuter id :", id);
+      Object.entries(this.tasks).map((e) => {
+        //console.log("e : ", e)
+        e[1].map((x) => {
+          if (x.contributers.includes(id)) {
+            if (this.tasksFilter[e[0]] === undefined) {
+              this.tasksFilter = {
+                ...this.tasksFilter,
+                ...{ [e[0]]: [] },
+              };
+            }
+
+            this.tasksFilter[e[0]] = [...this.tasksFilter[e[0]], { ...x }];
+          }
+        });
+      });
+    },
+    deleteContributerFilter() {
+      this.selectedContributerFilter = 0;
+      this.tasksFilter = this.tasks;
+    },
+    viewTaskDetails(id) {
+      this.selectedTaskDetail = [];
+
+      Object.values(this.tasks).map((e) => {
+        e.filter((x) => x.id == id).map((x) => (this.selectedTaskDetail = x));
+      });
     },
     onMove({ relatedContext, draggedContext }) {
       const relatedElement = relatedContext.element;
@@ -209,6 +279,7 @@ export default {
         this.newSectionModal = false;
         this.newSectionTitle = "";
       }
+      this.contributerFilter(this.selectedContributerFilter);
     },
     openTaskModal(e) {
       this.selectedSection = e;
@@ -222,11 +293,11 @@ export default {
       return (this.totalTaskCount = taskCounter);
     },
     addNewTask() {
-      console.log("this.newTaskContributers : ", this.newTaskContributers);
       if (this.newTaskTitle != null && this.newTaskTitle.length > 0) {
         this.tasks[this.selectedSection] = [
           ...this.tasks[this.selectedSection],
           {
+            id: new Date().valueOf(),
             title: this.newTaskTitle,
             createdAt: new Date(),
             createdBy: "AbdullahTurkmen",
@@ -240,8 +311,6 @@ export default {
           },
         ];
 
-        console.log("new task added : ", this.tasks);
-
         //reset variables
         this.newTaskModal = false;
         this.newTaskTitle = "";
@@ -252,6 +321,7 @@ export default {
         this.newTaskTags = [];
         this.newTaskContributers = [];
       }
+      this.contributerFilter(this.selectedContributerFilter);
     },
     deleteTaskTag(id) {
       this.newTaskTags.splice(id, 1);

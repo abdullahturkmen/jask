@@ -85,6 +85,8 @@ body {
             .contributer-list {
                 display: flex;
                 padding-top: 1px;
+                height: 32px;
+                position: relative;
 
                 &-item {
                     margin-left: -14px;
@@ -105,6 +107,30 @@ body {
                         background-color: #e9ebef;
                         border-radius: 100%;
                         outline: 1px solid white;
+                    }
+
+                    &.active {
+                        margin-right: 18px;
+                        .contributer-list-img {
+                            outline: 1px solid #344054;
+                        }
+                    }
+                }
+                &-filter-delete {
+                    margin-left: 10px;
+                    cursor: pointer;
+                    width: 30px;
+                    aspect-ratio: 1;
+                    background-color: #344054;
+                    border-radius: 100%;
+                    outline: 1px solid #344054;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    svg {
+                        color: #fff;
+                        width: 20px;
                     }
                 }
             }
@@ -197,9 +223,10 @@ body {
                         color: #667085;
                         text-transform: uppercase;
 
-                        & > span {
+                        & > .editable-title {
                             display: inline;
                             cursor: pointer;
+                            margin-right: 10px;
 
                             &:hover {
                                 background-color: #d7d7d7;

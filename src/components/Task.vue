@@ -1,5 +1,5 @@
 <template>
-  <div class="task-item">
+  <div class="task-item" @click="viewTaskDetails(taskDetail.id)">
     <div class="task-item-header">
       <div class="task-title" v-if="taskDetail.title">
         {{ taskDetail.title }}
@@ -57,16 +57,17 @@
         <ChatIcon />{{ taskDetail.comments.length }}
       </div>
       <div class="task-contributer" v-if="taskDetail.contributers.length > 0">
-        <a
+        <div
           class="task-contributer-item"
           href=""
           v-for="(contributer, index) in taskDetail.contributers"
           :key="index"
-          ><div
+        >
+          <div
             class="task-contributer-img"
             v-html="contributerAvatar(contributer)"
-          ></div
-        ></a>
+          ></div>
+        </div>
       </div>
     </div>
   </div>
@@ -120,6 +121,9 @@ export default {
   },
 
   methods: {
+    viewTaskDetails(id) {
+      this.$emit("clickedViewTaskDetails", id);
+    },
     contributerAvatar(e) {
       var contributerDetail = [];
       this.contributerData

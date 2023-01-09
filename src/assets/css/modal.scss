@@ -25,6 +25,11 @@
         font-size: 20px;
         font-weight: bold;
         color: #1d2939;
+
+        small {
+            font-size: 16px;
+            opacity: 0.8;
+        }
     }
 
     &-close-btn {
@@ -43,15 +48,15 @@
     }
 
     &-small {
-        width: clamp(260px, 100%, 400px);
+        width: clamp(260px, 90%, 400px);
         padding: 16px;
     }
     &-medium {
-        width: clamp(260px, 100%, 600px);
+        width: clamp(260px, 90%, 600px);
         padding: 24px;
     }
     &-big {
-        width: clamp(260px, 100%, 800px);
+        width: clamp(260px, 90%, 800px);
         padding: 32px;
     }
 
