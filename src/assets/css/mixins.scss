@@ -1,0 +1,35 @@
+@mixin thin-scrollbar {
+    scrollbar-width: thin;
+
+    &:hover {
+        &::-webkit-scrollbar {
+            &-track {
+                background: #ebebeb;
+            }
+            &-thumb {
+                background: $gray-800;
+            }
+        }
+    }
+
+    &::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+        border-radius: 100px;
+        margin-left: 26px;
+
+        &-track {
+            background: transparent;
+            border-radius: 100px;
+        }
+
+        &-thumb {
+            background: transparent;
+            border-radius: 100px;
+
+            &:hover {
+                background: #081b36;
+            }
+        }
+    }
+}

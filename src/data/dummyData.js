@@ -2,7 +2,7 @@ export const dummyTaskData = {
     ideas: [
         {
             id: 1,
-            title: "TASK-1124",
+            title: "Make a Kanban App",
             createdAt: "Sat Jan 20 2022 20:24:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
@@ -18,7 +18,7 @@ export const dummyTaskData = {
             contributers: [2]
         }, {
             id: 2,
-            title: "TASK-1542",
+            title: "Fix his kid through any means",
             createdAt: "Sat Jan 07 2023 12:20:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
@@ -33,7 +33,7 @@ export const dummyTaskData = {
     doing: [
         {
             id: 3,
-            title: "TASK-1035",
+            title: "Share it with friends",
             createdAt: "Sat Jan 09 2023 12:20:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
             description: "",
@@ -51,10 +51,10 @@ export const dummyTaskData = {
             contributers: [1]
         }
     ],
-    todo: [
+    "to do": [
         {
             id: 4,
-            title: "TASK-1256",
+            title: "Share the links for inspiration",
             createdAt: "Sat Jan 22 2022 20:24:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
@@ -67,7 +67,7 @@ export const dummyTaskData = {
         },
         {
             id: 5,
-            title: "TASK-1421",
+            title: "Treatment by Fire",
             createdAt: "Sat Dec 04 2022 12:20:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
             description: "",
@@ -80,7 +80,7 @@ export const dummyTaskData = {
         },
         {
             id: 6,
-            title: "TASK-1229",
+            title: "Use Elephants and Snakes",
             createdAt: "Sat Dec 16 2022 12:20:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
@@ -93,7 +93,7 @@ export const dummyTaskData = {
         },
         {
             id: 7,
-            title: "TASK-1041",
+            title: "Tracking Project",
             createdAt: "Sat Nov 13 2021 12:20:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
             description: "",
@@ -105,7 +105,7 @@ export const dummyTaskData = {
             contributers: [2]
         }, {
             id: 8,
-            title: "TASK-1032",
+            title: "Lorem Ipsum App",
             createdAt: "Sat Oct 27 2022 12:20:33 GMT+0300 (GMT+03:00)",
             createdBy: "AbdullahTurkmen",
             description: "",

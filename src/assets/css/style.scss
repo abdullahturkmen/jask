@@ -1,37 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Karla:wght@200;300;400;500;600;700;800&display=swap");
+
+@import "./colors";
+@import "./mixins";
 @import "./responsive";
 @import "./reset";
 @import "./modal";
 
 body {
-    background-color: #f2f4f7;
+    @include thin-scrollbar;
+    background-color: $gray-100;
     height: 100vh;
     font-family: "Karla", sans-serif;
-    scrollbar-width: thin;
 
     @include MinWidthResponsive(992px) {
         overflow: hidden;
-    }
-
-    &::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
-        border-radius: 100px;
-        margin-left: 26px;
-
-        &-track {
-            background: #ebebeb;
-            border-radius: 100px;
-        }
-
-        &-thumb {
-            background: #1d2939;
-            border-radius: 100px;
-
-            &:hover {
-                background: #081b36;
-            }
-        }
     }
 }
 
@@ -69,7 +51,7 @@ body {
             }
 
             .btn-new-section {
-                background-color: #344054;
+                background-color: $gray-700;
                 display: flex;
                 align-items: center;
                 padding: 4px 8px;
@@ -112,7 +94,7 @@ body {
                     &.active {
                         margin-right: 18px;
                         .contributer-list-img {
-                            outline: 1px solid #344054;
+                            outline: 1px solid $gray-700;
                         }
                     }
                 }
@@ -121,9 +103,9 @@ body {
                     cursor: pointer;
                     width: 30px;
                     aspect-ratio: 1;
-                    background-color: #344054;
+                    background-color: $gray-700;
                     border-radius: 100%;
-                    outline: 1px solid #344054;
+                    outline: 1px solid $gray-700;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -137,10 +119,10 @@ body {
         }
 
         &-content {
+            @include thin-scrollbar;
             /* overflow: hidden;*/
             height: 100%;
             overflow: auto;
-            scrollbar-width: thin;
 
             &:hover {
                 &::-webkit-scrollbar {
@@ -148,28 +130,7 @@ body {
                         background: #ebebeb;
                     }
                     &-thumb {
-                        background: #1d2939;
-                    }
-                }
-            }
-
-            &::-webkit-scrollbar {
-                width: 4px;
-                height: 4px;
-                border-radius: 100px;
-                margin-left: 26px;
-
-                &-track {
-                    background: transparent;
-                    border-radius: 100px;
-                }
-
-                &-thumb {
-                    background: transparent;
-                    border-radius: 100px;
-
-                    &:hover {
-                        background: #081b36;
+                        background: $gray-800;
                     }
                 }
             }
@@ -201,7 +162,14 @@ body {
                 }
 
                 &.sortable-chosen {
-                    /*background-color: #dce3ef !important;*/
+                    background-color: #dce3ef !important;
+                    border: 1px dashed $gray-800;
+                    transition-delay: 0.5s;
+
+                    & > * {
+                        opacity: 0;
+                        transition-delay: 0.5s;
+                    }
                 }
 
                 .section-head {
@@ -220,7 +188,7 @@ body {
                     .section-title {
                         font-size: 15px;
                         font-weight: bold;
-                        color: #667085;
+                        color: $gray-500;
                         text-transform: uppercase;
 
                         & > .editable-title {
@@ -235,7 +203,7 @@ body {
                     }
 
                     .btn-new-task {
-                        background-color: #344054;
+                        background-color: $gray-700;
                         display: flex;
                         align-items: center;
                         padding: 2px 6px;

@@ -1,9 +1,9 @@
 <template>
   <div class="task-item" @click="viewTaskDetails(taskDetail.id)">
     <div class="task-item-header">
-      <div class="task-title" v-if="taskDetail.title">
+      <h3 class="task-title" v-if="taskDetail.title">
         {{ taskDetail.title }}
-      </div>
+      </h3>
       <div class="task-details">
         <span>{{ taskCreatedAtFormatter(taskDetail.createdAt) }}</span>
         <span

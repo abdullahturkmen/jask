@@ -53,7 +53,11 @@
               </button>
             </div>
             <draggable class="task-list" :list="dataList" group="name">
-              <div v-for="(task, i) in dataList" :key="i">
+              <div
+                class="task-draggable"
+                v-for="(task, i) in dataList"
+                :key="i"
+              >
                 <Task
                   :taskDetail="task"
                   :contributerData="contributers"
@@ -153,32 +157,101 @@
       </div>
     </div>
     <div class="modal" v-show="selectedTaskDetail.length !== 0">
-      <div class="modal-container modal-medium">
-        <div class="modal-title">
+      <div class="modal-container modal-big">
+        <h4 class="modal-title">
           {{ selectedTaskDetail.title }}
           <small>MAT-{{ selectedTaskDetail.id }}</small>
-        </div>
+        </h4>
         <div class="modal-content">
-          <div class="task-item-header">
-            <div class="task-details">
-              <span>20 Jan 22</span
-              ><span>Created by <a href="#">AbdullahTurkmen</a></span>
+          <div class="modal-content-row">
+            <div class="modal-content-scrolling">
+              <div v-if="selectedTaskDetail.description">
+                <h5 class="modal-section-title">Description</h5>
+                <p>{{ selectedTaskDetail.description }}</p>
+              </div>
+              <img
+                class="task-img"
+                :src="selectedTaskDetail.coverImg"
+                v-if="selectedTaskDetail.coverImg"
+              />
+              <div
+                class="task-sources"
+                v-if="selectedTaskDetail.linkUrl || selectedTaskDetail.clipUrl"
+              >
+                <span v-if="selectedTaskDetail.linkUrl"
+                  ><a :href="selectedTaskDetail.linkUrl"
+                    ><LinkIcon /><span>{{
+                      selectedTaskDetail.linkUrl
+                    }}</span></a
+                  ></span
+                >
+                <span v-if="selectedTaskDetail.clipUrl"
+                  ><a :href="selectedTaskDetail.clipUrl"
+                    ><PaperClipIcon /><span>{{
+                      selectedTaskDetail.clipUrl
+                    }}</span></a
+                  ></span
+                >
+              </div>
+              <div class="task-tags" v-if="selectedTaskDetail.tags?.length > 0">
+                <span
+                  v-for="(tag, index) in selectedTaskDetail.tags"
+                  :key="index"
+                  >{{ tag }}</span
+                >
+              </div>
+
+              <div
+                class="task-detail-comments"
+                v-if="selectedTaskDetail.comments?.length > 0"
+              >
+                <h5 class="modal-section-title">Comments</h5>
+                <div class="task-detail-comments-list">
+                  <div
+                    class="task-detail-comments-item"
+                    v-for="(comment, index) in selectedTaskDetail.comments"
+                    :key="index"
+                  >
+                    {{ comment }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-content-fixed">
+              <div
+                class="task-detail-contributors"
+                v-if="selectedTaskDetail.contributers?.length > 0"
+              >
+                <div class="task-detail-contributors-list">
+                  <div class="task-detail-contributors-item">
+                    Created by {{ selectedTaskDetail.createdBy }}
+                  </div>
+
+                  <h5 class="modal-section-title">Contributors</h5>
+                  <div
+                    class="task-detail-contributors-item"
+                    href=""
+                    v-for="(
+                      contributer, index
+                    ) in selectedTaskDetail.contributers"
+                    :key="index"
+                  >
+                    <div
+                      class="task-detail-contributors-img"
+                      v-html="contributerAvatar(contributer)"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+
+              Created at
+              {{ new Date(selectedTaskDetail.createdAt).getDate() }}/{{
+                new Date(selectedTaskDetail.createdAt).getMonth() + 1
+              }}/{{ new Date(selectedTaskDetail.createdAt).getFullYear() }}
             </div>
           </div>
-          <div v-if="selectedTaskDetail.description">
-            {{ selectedTaskDetail.description }}
-          </div>
-          <img
-            class="task-img"
-            :src="selectedTaskDetail.coverImg"
-            v-if="selectedTaskDetail.coverImg"
-          />
         </div>
-        <div class="modal-actions">
-          <button class="submit-btn" @click="selectedTaskDetail = []">
-            Close
-          </button>
-        </div>
+
         <button class="modal-close-btn" @click="selectedTaskDetail = []">
           <XIcon />
         </button>
@@ -240,6 +313,20 @@ export default {
   },
 
   methods: {
+    contributerAvatar(e) {
+      var contributerDetail = [];
+      this.contributers
+        .filter((x) => x.id == e)
+        .map((x) => (contributerDetail = x));
+
+      if (contributerDetail) {
+        return `<img
+            src="${contributerDetail.avatar}"
+            alt="${contributerDetail.name}"
+            title="${contributerDetail.name}"
+          /> <span>${contributerDetail.name}</span>`;
+      }
+    },
     activeContributersData() {
       this.activeContributers = [];
       Object.values(this.tasks).map((e) => {
@@ -308,10 +395,11 @@ export default {
         this.newSectionModal = false;
         this.newSectionTitle = "";
       }
+      this.tasksFilter = this.tasks;
       if (this.selectedContributerFilter > 0) {
         this.contributerFilter(this.selectedContributerFilter);
       }
-
+      this.activeContributersData();
     },
     openTaskModal(e) {
       this.selectedSection = e;
@@ -353,10 +441,13 @@ export default {
         this.newTaskTags = [];
         this.newTaskContributers = [];
       }
+
+      this.tasksFilter = this.tasks;
       if (this.selectedContributerFilter > 0) {
         this.contributerFilter(this.selectedContributerFilter);
       }
 
+      this.activeContributersData();
     },
     deleteTaskTag(id) {
       this.newTaskTags.splice(id, 1);
@@ -392,12 +483,6 @@ export default {
         this.delayedDragging = false;
       });
     },
-
-    tasks: function (newQuestion) {
-      this.tasksFilter = this.tasks
-      // this will be run immediately on component creation.
-    },
-    // force eager callback execution
   },
 };
 </script>
