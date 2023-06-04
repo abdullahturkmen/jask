@@ -1,4 +1,4 @@
-# jira-clone
+# TaskifyIO 
 
 ## Project setup
 ```
