@@ -1,4 +1,4 @@
-# TaskifyIO 
+# Jask
 
 ## Project setup
 ```
