@@ -1,4 +1,8 @@
-# Jask
+# jask
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/abdullahturkmen/jask/master/src/assets/img/jask-logo-with-bg.png" style="width: clamp(100px, 100%, 480px) !important " />
+</p>
 
 ## Project setup
 ```
