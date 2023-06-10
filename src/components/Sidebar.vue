@@ -6,7 +6,9 @@
 
     <div class="board-sidebar-content">
       
-      <div class="sidebar-item"><HashtagIcon /><span>Company</span></div>
+      <div class="sidebar-item logo">
+        <img src="./../assets/img/jask-logo.png" alt="">
+      </div>
       <div class="sidebar-item active">
         <ViewGridIcon /><span>Tasks</span
         ><span class="item-count">{{ this.taskCount }}</span>

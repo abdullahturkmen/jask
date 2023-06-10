@@ -44,6 +44,12 @@
         color: $gray-500;
         font-weight: bold;
 
+        &.logo{
+            img{
+                max-height: 40px;
+            }
+        }
+
         & > * {
             &:first-child {
                 margin-right: 8px;
